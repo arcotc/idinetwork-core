@@ -6,8 +6,8 @@
 	<groupId>uk.co.idinetwork</groupId>
 	<artifactId>core</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
 	<name>Independent Driving Instructors Network - Core</name>
+	<packaging>jar</packaging>
 
 	<properties>
 		<!-- This is just for "eclipse:eclipse" goal to always attempt downloading 
