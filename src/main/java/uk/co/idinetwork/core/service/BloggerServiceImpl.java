@@ -25,4 +25,9 @@ public class BloggerServiceImpl implements BloggerService {
 	public Article loadUserBlog(GoogleService myService, String articleKey) {
 		return bloggerRepository.loadUserBlog(myService, articleKey);
 	}
+
+	@Override
+	public void flushCache() {
+		bloggerRepository.flushCache();
+	}
 }

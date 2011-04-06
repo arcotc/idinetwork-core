@@ -26,7 +26,7 @@ public class SiteNavigationServiceImpl implements SiteNavigationService {
 	}
 
 	@Override
-	public Boolean deleteSiteNavigation(String key) {
-		return siteNavigationRepository.deleteSiteNavigation(key);
+	public Boolean deleteSiteNavigation(String type, Long id) {
+		return siteNavigationRepository.deleteSiteNavigation(type, id);
 	}
 }

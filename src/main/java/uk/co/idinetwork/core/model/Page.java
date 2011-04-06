@@ -9,6 +9,8 @@ public class Page extends Model {
 	private String key;
 	private String title;
 	private String body;
+	private String metaDescription;
+	private String metaKeywords;
 
 	public Long getId() {
 		return id;
@@ -40,6 +42,22 @@ public class Page extends Model {
 	
 	public void setBody(String body) {
 		this.body = body;
+	}
+
+	public String getMetaDescription() {
+		return metaDescription;
+	}
+
+	public void setMetaDescription(String metaDescription) {
+		this.metaDescription = metaDescription;
+	}
+
+	public String getMetaKeywords() {
+		return metaKeywords;
+	}
+
+	public void setMetaKeywords(String metaKeywords) {
+		this.metaKeywords = metaKeywords;
 	}
 
 	public static Query<Page> all() {

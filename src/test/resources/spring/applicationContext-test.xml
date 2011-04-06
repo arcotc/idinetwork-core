@@ -9,4 +9,14 @@
         http://www.springframework.org/schema/context 
         http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
+	<bean id="bloggerFeedService" class="uk.co.idinetwork.core.service.BloggerFeedServiceImpl" />
+	<bean id="bloggerFeedRepository" class="uk.co.idinetwork.core.repository.BloggerFeedRepositoryImpl" />
+	<bean id="bloggerService" class="uk.co.idinetwork.core.service.BloggerServiceImpl" />
+	<bean id="bloggerRepository" class="uk.co.idinetwork.core.repository.BloggerRepositoryImpl" />
+	<bean id="instructorService" class="uk.co.idinetwork.core.service.InstructorServiceImpl" />
+	<bean id="instructorRepository" class="uk.co.idinetwork.core.repository.InstructorRepositoryImpl" />
+	<bean id="siteNavigationService" class="uk.co.idinetwork.core.service.SiteNavigationServiceImpl" />
+	<bean id="siteNavigationRepository" class="uk.co.idinetwork.core.repository.SiteNavigationRepositoryImpl" />
+	<bean id="pageService" class="uk.co.idinetwork.core.service.PageServiceImpl" />
+	<bean id="pageRepository" class="uk.co.idinetwork.core.repository.PageRepositoryImpl" />
 </beans>

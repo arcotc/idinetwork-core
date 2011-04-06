@@ -32,8 +32,8 @@ public class SiteNavigationRepositoryImpl implements SiteNavigationRepository {
 	}
 
 	@Override
-	public Boolean deleteSiteNavigation(String key) {
-		SiteNavigation siteNavigation = findNavigationByKey(key);
+	public Boolean deleteSiteNavigation(String type, Long id) {
+		SiteNavigation siteNavigation = SiteNavigation.all().filter("id", id).filter("type", type).get();
 		
 		if (siteNavigation != null) {
 			siteNavigation.delete();

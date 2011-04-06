@@ -28,10 +28,10 @@ public class PageController {
 	}
 	
 	@RequestMapping(value=CONTROLLER_MAPPING + "/add", method=RequestMethod.POST)
-	public ModelAndView addTopNavigation(String title, String body) {
+	public ModelAndView addTopNavigation(String title, String linkTitle, String body, String metaDescription, String metaKeywords) {
 		ModelAndView modelAndView = new ModelAndView(CONFIRMATION_VIEW);
 		
-		Page page = pageService.savePage(title, body);
+		Page page = pageService.savePage(title, linkTitle, body, metaDescription, metaKeywords);		
 		if (page.getId() != null) {
 			modelAndView.addObject("pageConfirmation", true);
 		}
@@ -39,14 +39,11 @@ public class PageController {
 		return modelAndView;
 	}
 	
-	@RequestMapping(value=CONTROLLER_MAPPING + "/delete/{type}", method=RequestMethod.POST)
-	public ModelAndView deleteTopNavigation(@PathVariable ("type") String type, String key) {
+	@RequestMapping(value=CONTROLLER_MAPPING + "/delete/{id}", method=RequestMethod.POST)
+	public ModelAndView deleteTopNavigation(@PathVariable ("id") Long id) {
 		ModelAndView modelAndView = new ModelAndView(CONFIRMATION_VIEW);
 		
-		// TODO: Delete page
-//		if (pageService.deletePage(key)) {
-			modelAndView.addObject("pageConfirmation", true);
-//		}
+		modelAndView.addObject("pageConfirmation", pageService.deletePage(id));
 		
 		return modelAndView;
 	}

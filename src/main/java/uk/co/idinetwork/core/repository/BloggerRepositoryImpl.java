@@ -18,9 +18,12 @@ import java.util.TreeMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import uk.co.idinetwork.core.model.Article;
+import uk.co.idinetwork.core.model.BloggerFeed;
 import uk.co.idinetwork.core.model.json.Atom;
+import uk.co.idinetwork.core.service.BloggerFeedService;
 
 import com.google.gdata.client.GoogleService;
 import com.google.gdata.data.Entry;
@@ -29,23 +32,20 @@ import com.google.gdata.util.ServiceException;
 
 public class BloggerRepositoryImpl implements BloggerRepository {
 	private static final Log log = LogFactory.getLog(BloggerRepositoryImpl.class);
-	private List<String> feedUrls = new ArrayList<String>();
 	private static Map<String, Article> cache = new TreeMap<String, Article>();
 	private static Date cachedExpireDate = null;
-	
-	public BloggerRepositoryImpl() {
-		feedUrls.add("http://continuing-to-learning.blogspot.com/feeds/posts/default");
-	}
+	@Autowired BloggerFeedService bloggerFeedService;
 	
 	@Override
 	public Collection<Article> loadUserBlogs(GoogleService myService) {
 		if (isCacheExpired()) {
 			Map<String, Article> articles = new TreeMap<String, Article>();
 			
-			for (String url : feedUrls) {
+			List<BloggerFeed> bloggerFeeds = bloggerFeedService.loadAllBloggerFeeds();
+			for (BloggerFeed bloggerFeed : bloggerFeeds) {
 				try {
 					// Request the feed
-					final URL feedUrl = new URL(url);
+					final URL feedUrl = new URL(bloggerFeed.getFeedUrl());
 					Feed resultFeed = myService.getFeed(feedUrl, Feed.class);
 			
 					// Print the results
@@ -63,10 +63,10 @@ public class BloggerRepositoryImpl implements BloggerRepository {
 					}
 				}
 				catch (ServiceException serviceException) {
-					log.error("Error occurred parsing feed URL " + url + ": " + serviceException.getMessage());
+					log.error("Error occurred parsing feed URL " + bloggerFeed.getFeedUrl() + ": " + serviceException.getMessage());
 				}
 				catch (IOException ioException) {
-					log.error("Error occurred parsing feed URL " + url + ": " + ioException.getMessage());
+					log.error("Error occurred parsing feed URL " + bloggerFeed.getFeedUrl() + ": " + ioException.getMessage());
 				}
 			}
 			
@@ -119,8 +119,11 @@ public class BloggerRepositoryImpl implements BloggerRepository {
 	}
 	
 	private Boolean isCacheExpired() {
-		boolean result = ((cache.size() == 0) || (new Date().after(cachedExpireDate)));
-		
-		return result;
+		return ((cache == null) || (cache.size() == 0) || (new Date().after(cachedExpireDate)));
+	}
+
+	@Override
+	public void flushCache() {
+		cache = null;
 	}
 }

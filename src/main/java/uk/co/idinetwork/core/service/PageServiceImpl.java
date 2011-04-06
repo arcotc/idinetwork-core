@@ -21,7 +21,12 @@ public class PageServiceImpl implements PageService {
 	}
 
 	@Override
-	public Page savePage(String title, String body) {
-		return pageRepository.savePage(title, body);
+	public Page savePage(String title, String linkTitle, String body, String metaDescription, String metaKeywords) {
+		return pageRepository.savePage(title, linkTitle, body, metaDescription, metaKeywords);
+	}
+
+	@Override
+	public boolean deletePage(Long id) {
+		return pageRepository.deletePage(id);
 	}
 }

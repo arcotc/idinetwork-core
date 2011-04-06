@@ -9,4 +9,5 @@ import com.google.gdata.client.GoogleService;
 public interface BloggerRepository {
 	public Collection<Article> loadUserBlogs(GoogleService myService);
 	public Article loadUserBlog(GoogleService myService, String articleKey);
+	public void flushCache();
 }

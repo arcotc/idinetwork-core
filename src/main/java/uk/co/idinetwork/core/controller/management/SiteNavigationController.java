@@ -46,13 +46,11 @@ public class SiteNavigationController {
 		return modelAndView;
 	}
 	
-	@RequestMapping(value=CONTROLLER_MAPPING + "/delete/{type}", method=RequestMethod.POST)
-	public ModelAndView deleteTopNavigation(@PathVariable ("type") String type, String key) {
+	@RequestMapping(value=CONTROLLER_MAPPING + "/delete/{type}/{id}", method=RequestMethod.POST)
+	public ModelAndView deleteTopNavigation(@PathVariable ("type") String type, @PathVariable ("id") Long id) {
 		ModelAndView modelAndView = new ModelAndView(CONFIRMATION_VIEW);
 		
-		if (siteNavigationService.deleteSiteNavigation(key)) {
-			modelAndView.addObject("siteNavigationConfirmation", true);
-		}
+		modelAndView.addObject("siteNavigationConfirmation", siteNavigationService.deleteSiteNavigation(type, id));
 		
 		return modelAndView;
 	}
