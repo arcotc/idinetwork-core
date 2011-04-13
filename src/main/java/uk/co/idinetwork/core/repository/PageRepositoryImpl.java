@@ -43,4 +43,9 @@ public class PageRepositoryImpl implements PageRepository {
 			return true;
 		}
 	}
+
+	@Override
+	public Page loadPage(Long id) {
+		return Page.all().filter("id", id).get();
+	}
 }

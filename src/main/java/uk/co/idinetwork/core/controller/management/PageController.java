@@ -14,12 +14,13 @@ import uk.co.idinetwork.core.service.PageService;
 public class PageController {
 	private static final String CONTROLLER_MAPPING = "/management/page";
 	private static final String VIEW = "management/page";
+	private static final String EDIT = "management/page/edit";
 	private static final String CONFIRMATION_VIEW = "management/page-confirmation";
 	
 	@Autowired private PageService pageService;
 
 	@RequestMapping(value=CONTROLLER_MAPPING, method=RequestMethod.GET)
-	public ModelAndView siteNavigationList() {
+	public ModelAndView pageList() {
 		ModelAndView modelAndView = new ModelAndView(VIEW);
 		
 		modelAndView.addObject("pages", pageService.loadAllPages());
@@ -28,7 +29,7 @@ public class PageController {
 	}
 	
 	@RequestMapping(value=CONTROLLER_MAPPING + "/add", method=RequestMethod.POST)
-	public ModelAndView addTopNavigation(String title, String linkTitle, String body, String metaDescription, String metaKeywords) {
+	public ModelAndView addPage(String title, String linkTitle, String body, String metaDescription, String metaKeywords) {
 		ModelAndView modelAndView = new ModelAndView(CONFIRMATION_VIEW);
 		
 		Page page = pageService.savePage(title, linkTitle, body, metaDescription, metaKeywords);		
@@ -40,10 +41,19 @@ public class PageController {
 	}
 	
 	@RequestMapping(value=CONTROLLER_MAPPING + "/delete/{id}", method=RequestMethod.POST)
-	public ModelAndView deleteTopNavigation(@PathVariable ("id") Long id) {
+	public ModelAndView deletePage(@PathVariable ("id") Long id) {
 		ModelAndView modelAndView = new ModelAndView(CONFIRMATION_VIEW);
 		
 		modelAndView.addObject("pageConfirmation", pageService.deletePage(id));
+		
+		return modelAndView;
+	}
+	
+	@RequestMapping(value=CONTROLLER_MAPPING + "/edit/{id}", method=RequestMethod.GET)
+	public ModelAndView editPage(@PathVariable ("id") Long id) {
+		ModelAndView modelAndView = new ModelAndView(EDIT);
+		
+		modelAndView.addObject("pages", pageService.loadPage(id));
 		
 		return modelAndView;
 	}

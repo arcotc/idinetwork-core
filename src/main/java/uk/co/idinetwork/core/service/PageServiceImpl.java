@@ -29,4 +29,9 @@ public class PageServiceImpl implements PageService {
 	public boolean deletePage(Long id) {
 		return pageRepository.deletePage(id);
 	}
+
+	@Override
+	public Page loadPage(Long id) {
+		return pageRepository.loadPage(id);
+	}
 }
