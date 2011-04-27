@@ -40,13 +40,13 @@ public class PageController {
 	}
 	
 	@RequestMapping(value=CONTROLLER_MAPPING + "/add", method=RequestMethod.POST)
-	public ModelAndView addPage(HttpServletRequest request, String title, String linkTitle, String body, String metaDescription, String metaKeywords) {
+	public ModelAndView addPage(HttpServletRequest request, String title, String linkTitle, String body, String metaDescription, String metaKeywords, String tags) {
 		ModelAndView modelAndView = null;
 		
 		if (authorisationService.isAuthorised()) {
 			modelAndView = new ModelAndView(CONFIRMATION_VIEW);
 			
-			Page page = pageService.savePage(title, linkTitle, body, metaDescription, metaKeywords);		
+			Page page = pageService.savePage(title, linkTitle, body, metaDescription, metaKeywords, tags);		
 			if (page.getId() != null) {
 				modelAndView.addObject("pageConfirmation", true);
 			}
@@ -94,11 +94,11 @@ public class PageController {
 	}
 	
 	@RequestMapping(value=CONTROLLER_MAPPING + "/edit", method=RequestMethod.POST)
-	public ModelAndView editPageSave(HttpServletRequest request, Long id, String title, String linkTitle, String body, String metaDescription, String metaKeywords) {
+	public ModelAndView editPageSave(HttpServletRequest request, Long id, String title, String linkTitle, String body, String metaDescription, String metaKeywords, String tags) {
 		ModelAndView modelAndView = null;
 		
 		if (authorisationService.isAuthorised()) {
-			Page page = pageService.updatePage(id, title, linkTitle, body, metaDescription, metaKeywords);
+			Page page = pageService.updatePage(id, title, linkTitle, body, metaDescription, metaKeywords, tags);
 			if (page != null) {
 				modelAndView = new ModelAndView(CONFIRMATION_VIEW);
 				modelAndView.addObject("pageConfirmation", true);

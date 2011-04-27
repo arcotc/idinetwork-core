@@ -73,7 +73,7 @@ public class BloggerRepositoryImpl implements BloggerRepository {
 					else {
 						for (String tag : tags.split(",")) {
 							for (Category category : entry.getCategories()) {
-								if (StringUtils.contains(category.getTerm(),tag)) {
+								if (StringUtils.contains(category.getTerm().toLowerCase(),tag.toLowerCase())) {
 									processThisRecord = true;
 									break;
 								}

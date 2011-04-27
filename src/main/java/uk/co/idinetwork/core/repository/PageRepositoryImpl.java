@@ -17,13 +17,14 @@ public class PageRepositoryImpl implements PageRepository {
 	}
 
 	@Override
-	public Page savePage(String title, String linkTitle, String body, String metaDescription, String metaKeywords) {
+	public Page savePage(String title, String linkTitle, String body, String metaDescription, String metaKeywords, String tags) {
 		Page page = new Page();
 		page.setKey(KeyUtil.buildKey(linkTitle));
 		page.setTitle(title);
 		page.setBody(body);
 		page.setMetaDescription(metaDescription);
 		page.setMetaKeywords(metaKeywords);
+		page.setTags(tags);
 		
 		page.insert();
 		
@@ -50,7 +51,7 @@ public class PageRepositoryImpl implements PageRepository {
 	}
 
 	@Override
-	public Page updatePage(Long id, String title, String linkTitle, String body, String metaDescription, String metaKeywords) {
+	public Page updatePage(Long id, String title, String linkTitle, String body, String metaDescription, String metaKeywords, String tags) {
 		Page page = new Page();
 		page.setId(id);
 		page.setKey(KeyUtil.buildKey(linkTitle));
@@ -58,6 +59,7 @@ public class PageRepositoryImpl implements PageRepository {
 		page.setBody(body);
 		page.setMetaDescription(metaDescription);
 		page.setMetaKeywords(metaKeywords);
+		page.setTags(tags);
 		
 		page.update();
 		

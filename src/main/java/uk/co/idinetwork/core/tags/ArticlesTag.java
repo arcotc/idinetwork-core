@@ -16,6 +16,7 @@ public class ArticlesTag extends TagSupport {
 	private WebApplicationContext applicationContext;
 	private BloggerService articleService;
 	private String tags;
+	private String name;
 
 	public ArticlesTag() {
 	}
@@ -39,7 +40,7 @@ public class ArticlesTag extends TagSupport {
 			pageContext.getRequest().setAttribute("articles", articleService.loadUserBlogs(myService).values());
 		}
 		else {
-			pageContext.getRequest().setAttribute("articles", articleService.loadUserBlogs(myService, tags.toLowerCase()).values());
+			pageContext.getRequest().setAttribute(StringUtils.isBlank(name) ? "articles" : name, articleService.loadUserBlogs(myService, tags.toLowerCase()).values());
 		}
 		
 		return response;
@@ -51,5 +52,13 @@ public class ArticlesTag extends TagSupport {
 	
 	public String getTags() {
 		return tags;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getName() {
+		return name;
 	}
 }
