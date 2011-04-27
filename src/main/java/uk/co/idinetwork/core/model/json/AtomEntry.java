@@ -10,6 +10,7 @@ public class AtomEntry {
 	private AtomT updated;
 	private AtomTValue title;
 	private AtomTValue content;
+	private AtomTTermValue term;
 
 	public String getXmlns() {
 		return xmlns;
@@ -57,6 +58,14 @@ public class AtomEntry {
 
 	public AtomTValue getContent() {
 		return content;
+	}
+
+	public void setTerm(AtomTTermValue term) {
+		this.term = term;
+	}
+
+	public AtomTTermValue getTerm() {
+		return term;
 	}
 	
 	

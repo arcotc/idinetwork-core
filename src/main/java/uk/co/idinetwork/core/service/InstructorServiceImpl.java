@@ -18,4 +18,14 @@ public class InstructorServiceImpl implements InstructorService {
 	public Instructor saveInstructor(String forename, String surname, String adiCode) {
 		return instructorRepository.saveInstructor(forename, surname, adiCode);
 	}
+
+	@Override
+	public Instructor saveInstructor(Instructor instructorToSave) {
+		return instructorRepository.saveInstructor(instructorToSave);
+	}
+
+	@Override
+	public Instructor findInstructorByAdiCode(String adiCode) {
+		return instructorRepository.findInstructorByAdiCode(adiCode);
+	}
 }

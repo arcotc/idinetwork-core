@@ -34,4 +34,9 @@ public class PageServiceImpl implements PageService {
 	public Page loadPage(Long id) {
 		return pageRepository.loadPage(id);
 	}
+
+	@Override
+	public Page updatePage(Long id, String title, String linkTitle, String body, String metaDescription, String metaKeywords) {
+		return pageRepository.updatePage(id, title, linkTitle, body, metaDescription, metaKeywords);
+	}
 }

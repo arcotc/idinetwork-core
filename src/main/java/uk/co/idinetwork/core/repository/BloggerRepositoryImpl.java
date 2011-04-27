@@ -6,15 +6,14 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -26,6 +25,7 @@ import uk.co.idinetwork.core.model.json.Atom;
 import uk.co.idinetwork.core.service.BloggerFeedService;
 
 import com.google.gdata.client.GoogleService;
+import com.google.gdata.data.Category;
 import com.google.gdata.data.Entry;
 import com.google.gdata.data.Feed;
 import com.google.gdata.util.ServiceException;
@@ -37,20 +37,51 @@ public class BloggerRepositoryImpl implements BloggerRepository {
 	@Autowired BloggerFeedService bloggerFeedService;
 	
 	@Override
-	public Collection<Article> loadUserBlogs(GoogleService myService) {
+	public Map<String, Article> loadUserBlogs(GoogleService myService) {
 		if (isCacheExpired()) {
-			Map<String, Article> articles = new TreeMap<String, Article>();
+			Map<String, Article> articles = loadUserBlogs(myService, null);
 			
-			List<BloggerFeed> bloggerFeeds = bloggerFeedService.loadAllBloggerFeeds();
-			for (BloggerFeed bloggerFeed : bloggerFeeds) {
-				try {
-					// Request the feed
-					final URL feedUrl = new URL(bloggerFeed.getFeedUrl());
-					Feed resultFeed = myService.getFeed(feedUrl, Feed.class);
-			
-					// Print the results
-					for (int i = 0; i < resultFeed.getEntries().size(); i++) {
-						Entry entry = resultFeed.getEntries().get(i);
+			cache = articles;
+			GregorianCalendar cal = new GregorianCalendar();
+			cal.add(Calendar.MINUTE, 15);
+			cachedExpireDate = cal.getTime();
+		}
+
+		return cache;
+	}
+	
+	
+	@Override
+	public Map<String, Article> loadUserBlogs(GoogleService myService, String tags) {
+		Map<String, Article> articles = new TreeMap<String, Article>();
+		
+		List<BloggerFeed> bloggerFeeds = bloggerFeedService.loadAllBloggerFeeds();
+		for (BloggerFeed bloggerFeed : bloggerFeeds) {
+			try {
+				// Request the feed
+				final URL feedUrl = new URL(bloggerFeed.getFeedUrl());
+				Feed resultFeed = myService.getFeed(feedUrl, Feed.class);
+		
+				// Print the results
+				for (int i = 0; i < resultFeed.getEntries().size(); i++) {
+					Entry entry = resultFeed.getEntries().get(i);
+					
+					boolean processThisRecord = false;
+					if (StringUtils.isBlank(tags)) {
+						processThisRecord = true;
+					}
+					else {
+						for (String tag : tags.split(",")) {
+							for (Category category : entry.getCategories()) {
+								if (StringUtils.contains(category.getTerm(),tag)) {
+									processThisRecord = true;
+									break;
+								}
+							}
+						}
+					}
+					
+					if (processThisRecord) {
 						Article article = new Article(entry.getTitle().getPlainText(), entry.getTitle().getPlainText(), entry.getTextContent().getContent().getPlainText().substring(0, 50) + "...", entry.getTextContent().getContent().getPlainText());
 						
 						// TODO: Replace with RegEx
@@ -62,21 +93,16 @@ public class BloggerRepositoryImpl implements BloggerRepository {
 						articles.put(article.getKey(), article);
 					}
 				}
-				catch (ServiceException serviceException) {
-					log.error("Error occurred parsing feed URL " + bloggerFeed.getFeedUrl() + ": " + serviceException.getMessage());
-				}
-				catch (IOException ioException) {
-					log.error("Error occurred parsing feed URL " + bloggerFeed.getFeedUrl() + ": " + ioException.getMessage());
-				}
 			}
-			
-			cache = articles;
-			GregorianCalendar cal = new GregorianCalendar();
-			cal.add(Calendar.MINUTE, 15);
-			cachedExpireDate = cal.getTime();
+			catch (ServiceException serviceException) {
+				log.error("Error occurred parsing feed URL " + bloggerFeed.getFeedUrl() + ": " + serviceException.getMessage());
+			}
+			catch (IOException ioException) {
+				log.error("Error occurred parsing feed URL " + bloggerFeed.getFeedUrl() + ": " + ioException.getMessage());
+			}
 		}
-
-		return new ArrayList<Article>(cache.values());
+		
+		return articles;
 	}
 
 	@Override

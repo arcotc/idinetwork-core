@@ -15,7 +15,6 @@ public class FirstLevelPageController extends StandardController {
 		ModelAndView modelAndView = new ModelAndView("firstLevelPage");
 		
 		loadPage(modelAndView, page);
-		loadArticles(modelAndView);
 		loadNavigation(modelAndView);
 		
 		return modelAndView;

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
 
 import uk.co.idinetwork.core.model.Article;
+import uk.co.idinetwork.core.model.Page;
 import uk.co.idinetwork.core.service.BloggerService;
 import uk.co.idinetwork.core.service.PageService;
 import uk.co.idinetwork.core.service.SiteNavigationService;
@@ -19,7 +20,13 @@ public class StandardController {
 	
 	protected void loadArticles(ModelAndView modelAndView) {
 		GoogleService myService = new GoogleService("blogger", "continuing-to-learning");
-		Collection<Article> userBlogs = articleService.loadUserBlogs(myService);
+		Collection<Article> userBlogs = articleService.loadUserBlogs(myService).values();
+		modelAndView.addObject("articles", userBlogs);
+	}
+	
+	protected void loadArticles(ModelAndView modelAndView, String tags) {
+		GoogleService myService = new GoogleService("blogger", "continuing-to-learning");
+		Collection<Article> userBlogs = articleService.loadUserBlogs(myService, tags).values();
 		modelAndView.addObject("articles", userBlogs);
 	}
 	
@@ -34,6 +41,14 @@ public class StandardController {
 	}
 	
 	protected void loadPage(ModelAndView modelAndView, String key) {
-		modelAndView.addObject("page", pageService.loadPage(key));
+		Page page = pageService.loadPage(key);
+		
+		if (page == null) {
+			page = new Page();
+			page.setTitle("Page not found");
+			page.setBody("The requested page could not be found.");
+		}
+
+		modelAndView.addObject("page", page);
 	}
 }

@@ -19,4 +19,17 @@ public class InstructorRepositoryImpl implements InstructorRepository {
 		
 		return instructor;
 	}
+
+	@Override
+	public Instructor saveInstructor(Instructor instructorToSave) {
+		instructorToSave.insert();
+		
+		return instructorToSave;
+	}
+
+	@Override
+	public Instructor findInstructorByAdiCode(String adiCode) {
+		List<Instructor> instructors = Instructor.all().filter("adiCode", adiCode).fetch();
+		return instructors.size() > 0 ? instructors.get(0) : null;
+	}
 }

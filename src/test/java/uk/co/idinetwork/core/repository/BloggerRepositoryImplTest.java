@@ -5,7 +5,7 @@ import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Collection;
+import java.util.Map;
 
 import org.junit.Ignore;
 import org.junit.Test;
@@ -46,7 +46,7 @@ public class BloggerRepositoryImplTest {
 	@Ignore
 	public void testLoadUserBloggs() throws IOException, ServiceException {
 		GoogleService myService = new GoogleService("blogger", "continuing-to-learning");
-		Collection<Article> actual = bloggerRepository.loadUserBlogs(myService);
+		Map<String, Article> actual = bloggerRepository.loadUserBlogs(myService);
 		
 		assertNotNull(actual);
 	}

@@ -48,4 +48,19 @@ public class PageRepositoryImpl implements PageRepository {
 	public Page loadPage(Long id) {
 		return Page.all().filter("id", id).get();
 	}
+
+	@Override
+	public Page updatePage(Long id, String title, String linkTitle, String body, String metaDescription, String metaKeywords) {
+		Page page = new Page();
+		page.setId(id);
+		page.setKey(KeyUtil.buildKey(linkTitle));
+		page.setTitle(title);
+		page.setBody(body);
+		page.setMetaDescription(metaDescription);
+		page.setMetaKeywords(metaKeywords);
+		
+		page.update();
+		
+		return page;
+	}
 }

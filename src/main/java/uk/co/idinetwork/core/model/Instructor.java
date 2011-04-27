@@ -9,6 +9,7 @@ public class Instructor extends Model {
 	private String forename;
 	private String surname;
 	private String adiCode;
+//	private List<Coverage> coverages;
 
 	public Instructor() {
 		// Empty - default constructor
@@ -51,7 +52,16 @@ public class Instructor extends Model {
 	public void setAdiCode(String adiCode) {
 		this.adiCode = adiCode;
 	}
-	
+/*	
+	public List<Coverage> getCoverages() {
+		return coverages;
+	}
+
+	public void setCoverages(List<Coverage> coverages) {
+		this.coverages = coverages;
+	}
+	*/
+
 	@Override
 	public String toString() {
 		return "Instructor {" + id + ", " + forename + ", " + surname + ", " + adiCode + "}";

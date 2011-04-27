@@ -20,7 +20,7 @@ public class InstructorJsonController {
 	
 	@RequestMapping(value=CONTROLLER_MAPPING_PREFIX + "{adiCode}", method=RequestMethod.GET)
 	public ModelAndView findInstructor(@PathVariable("adiCode") String adiCode) {
-		Instructor instructor = instructorService.findInstructor(adiCode);
+		Instructor instructor = instructorService.findInstructorByAdiCode(adiCode);
 		
 		ModelAndView modelAndView = new ModelAndView("jsonView", "response", new JsonResponse<JsonInstructor>(JsonResponse.OK, new JsonInstructor(instructor)));
 		
