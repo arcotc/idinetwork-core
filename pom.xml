@@ -308,7 +308,6 @@
 					<goals>gae:deploy</goals>
 				</configuration>
 			</plugin>
-
-		</plugins>
+   		</plugins>
 	</build>
 </project>

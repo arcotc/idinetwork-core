@@ -9,14 +9,13 @@ public class AuthorisationServiceImpl implements AuthorisationService {
 	private static final String NOT_LOGGED_IN_VIEW = "management/not-authorised";
 
 	@Autowired UserService googleUserService;
+	@Autowired AdminUserService adminUserService;
 	
 	@Override
 	public Boolean isAuthorised() {
 		User user = googleUserService.getCurrentUser();
 		
-		// TODO: Make this read from a local project file
-		if ((user != null) && ((user.getEmail().toLowerCase().equals("arcotc@googlemail.com")) || 
-							   (user.getEmail().toLowerCase().equals("jssom@hotmail.co.uk")))) {
+		if ((user != null) && (adminUserService.validUser(user.getEmail().toLowerCase()))) {
 			return true;
 		}
 		
