@@ -9,6 +9,7 @@ public class KeyUtil {
 		s = s.replaceAll(";", "");
 		s = s.replaceAll(",", "");
 		s = s.replaceAll("&", "");
+		s = s.replaceAll("-", "");
 
 		return s;
 	}

@@ -13,10 +13,12 @@ public class AuthorisationServiceImpl implements AuthorisationService {
 	
 	@Override
 	public Boolean isAuthorised() {
-		User user = googleUserService.getCurrentUser();
-		
-		if ((user != null) && (adminUserService.validUser(user.getEmail().toLowerCase()))) {
-			return true;
+		if (googleUserService.isUserLoggedIn()) {
+			User user = googleUserService.getCurrentUser();
+			
+			if ((user != null) && (adminUserService.validUser(user.getEmail().toLowerCase()))) {
+				return true;
+			}
 		}
 		
 		return false;
