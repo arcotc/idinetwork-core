@@ -1,9 +1,6 @@
 package uk.co.idinetwork.core.service;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,16 +15,22 @@ public class BloggerServiceImpl implements BloggerService {
 
 	@Override
 	public Map<String, Article> loadUserBlogs(GoogleService myService) {
-		Map<String, Article> userBlogs = bloggerRepository.loadUserBlogs(myService);
-		Collection<Article> articles = (Collection<Article>) userBlogs.values();
-		List<Article> articlesList = new ArrayList<Article>(articles);
-		Collections.sort(articlesList);
-		return userBlogs;
+		return bloggerRepository.loadUserBlogs(myService);
 	}
 
 	@Override
 	public Map<String, Article> loadUserBlogs(GoogleService myService, String tags) {
 		return bloggerRepository.loadUserBlogs(myService, tags);
+	}
+	
+	@Override
+	public Collection<Article> loadArticlesOrderedByDateLatestFirst(GoogleService myService) {
+		return bloggerRepository.loadArticlesOrderedByDateLatestFirst(myService, null);
+	}
+	
+	@Override
+	public Collection<Article> loadArticlesOrderedByDateLatestFirst(GoogleService myService, String tags) {
+		return bloggerRepository.loadArticlesOrderedByDateLatestFirst(myService, tags);
 	}
 	
 	@Override

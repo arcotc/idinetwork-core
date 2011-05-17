@@ -6,7 +6,9 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -103,6 +105,33 @@ public class BloggerRepositoryImpl implements BloggerRepository {
 		}
 		
 		return articles;
+	}
+	
+	@Override
+	public Collection<Article> loadArticlesOrderedByDateLatestFirst(GoogleService myService, String tags) {
+		Map<String, Article> userBlogs = loadUserBlogs(myService, tags);
+		Map<Long, Collection<Article>> orderedBlogs = new TreeMap<Long, Collection<Article>>();
+
+		for (Article article : userBlogs.values()) {
+			Long key = article.getDateCreated().getTime() * -1;
+			Collection<Article> list = new ArrayList<Article>();
+			
+			if (orderedBlogs.containsKey(key)) {
+				list = orderedBlogs.get(key);
+			}
+			else {
+				orderedBlogs.put(article.getDateCreated().getTime() * -1, list);
+			}
+			
+			list.add(article);
+ 		}
+		
+		Collection<Article> values = new ArrayList<Article>();
+		for (Collection<Article> articles : orderedBlogs.values()) {
+			values.addAll(articles);
+		}
+		
+		return values;
 	}
 
 	@Override

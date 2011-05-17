@@ -34,7 +34,7 @@ public class BloggerRepositoryImplTest {
 //    @Before
     public void setUp() {
         helper.setUp();
-		bloggerFeedRepository.saveBloggerFeed("IDI Network", "http://idinetwork.blogspot.com/feeds/posts/default");
+		bloggerFeedRepository.saveBloggerFeed("IDI Network", "http://idinetwork.blogspot.com/feeds/posts/default", false);
     }
 
 //    @After

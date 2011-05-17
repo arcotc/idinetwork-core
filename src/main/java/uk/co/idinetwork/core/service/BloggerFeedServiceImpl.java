@@ -21,8 +21,8 @@ public class BloggerFeedServiceImpl implements BloggerFeedService {
 	}
 
 	@Override
-	public BloggerFeed saveBloggerFeed(String name, String feedUrl) {
-		return bloggerFeedRepository.saveBloggerFeed(name, feedUrl);
+	public BloggerFeed saveBloggerFeed(String name, String feedUrl, Boolean defaultFeed) {
+		return bloggerFeedRepository.saveBloggerFeed(name, feedUrl, defaultFeed);
 	}
 
 	@Override

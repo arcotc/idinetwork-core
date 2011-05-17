@@ -1,5 +1,8 @@
 package uk.co.idinetwork.core.tags;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
@@ -7,6 +10,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
+import uk.co.idinetwork.core.model.Article;
 import uk.co.idinetwork.core.service.BloggerService;
 
 import com.google.gdata.client.GoogleService;
@@ -17,6 +21,7 @@ public class ArticlesTag extends TagSupport {
 	private BloggerService articleService;
 	private String tags;
 	private String name;
+	private Integer maxItems = -1;
 
 	public ArticlesTag() {
 	}
@@ -36,12 +41,35 @@ public class ArticlesTag extends TagSupport {
 		}
 
 		GoogleService myService = new GoogleService("blogger", "continuing-to-learning");
+		String attributeName = "articles";
+		Collection<Article> articles = new ArrayList<Article>();
+		
 		if (StringUtils.isBlank(tags)) {
-			pageContext.getRequest().setAttribute("articles", articleService.loadUserBlogs(myService).values());
+			articles = articleService.loadArticlesOrderedByDateLatestFirst(myService);
 		}
 		else {
-			pageContext.getRequest().setAttribute(StringUtils.isBlank(name) ? "articles" : name, articleService.loadUserBlogs(myService, tags.toLowerCase()).values());
+			attributeName = StringUtils.isBlank(name) ? "articles" : name;
+			articles = articleService.loadArticlesOrderedByDateLatestFirst(myService, tags.toLowerCase());
 		}
+		
+		if (maxItems > 0) {
+			Collection<Article> temp = new ArrayList<Article>();
+			int i=1;
+			for (Article article : articles) {
+				temp.add(article);
+				
+				if (i == maxItems) {
+					break;
+				}
+				else {
+					i++;
+				}
+			}
+			
+			articles = temp;
+		}
+
+		pageContext.getRequest().setAttribute(attributeName, articles);
 		
 		return response;
 	}
@@ -60,5 +88,13 @@ public class ArticlesTag extends TagSupport {
 
 	public String getName() {
 		return name;
+	}
+	
+	public void setMaxItems(Integer maxItems) {
+		this.maxItems = maxItems;
+	}
+	
+	public Integer getMaxItems() {
+		return maxItems;
 	}
 }

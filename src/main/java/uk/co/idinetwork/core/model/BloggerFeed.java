@@ -8,6 +8,7 @@ public class BloggerFeed extends Model {
 	@Id private Long id;
 	private String name;
 	private String feedUrl;
+	private Boolean defaultFeed;
 
 	public Long getId() {
 		return id;
@@ -31,6 +32,14 @@ public class BloggerFeed extends Model {
 
 	public void setFeedUrl(String feedUrl) {
 		this.feedUrl = feedUrl;
+	}
+	
+	public Boolean getDefaultFeed() {
+		return defaultFeed;
+	}
+	
+	public void setDefaultFeed(Boolean defaultFeed) {
+		this.defaultFeed = defaultFeed;
 	}
 
 	public static Query<BloggerFeed> all() {

@@ -19,7 +19,7 @@ public class BloggerFeedController {
 	@Autowired private BloggerFeedService bloggerFeedService;
 
 	@RequestMapping(value=CONTROLLER_MAPPING, method=RequestMethod.GET)
-	public ModelAndView siteNavigationList() {
+	public ModelAndView bloggerFeedList() {
 		ModelAndView modelAndView = new ModelAndView(VIEW);
 		
 		modelAndView.addObject("bloggerFeeds", bloggerFeedService.loadAllBloggerFeeds());
@@ -28,10 +28,10 @@ public class BloggerFeedController {
 	}
 	
 	@RequestMapping(value=CONTROLLER_MAPPING + "/add", method=RequestMethod.POST)
-	public ModelAndView addTopNavigation(String name, String feedUrl) {
+	public ModelAndView addBloggerFeed(String name, String feedUrl, Boolean defaultFeed) {
 		ModelAndView modelAndView = new ModelAndView(CONFIRMATION_VIEW);
 		
-		BloggerFeed bloggerFeed = bloggerFeedService.saveBloggerFeed(name, feedUrl);
+		BloggerFeed bloggerFeed = bloggerFeedService.saveBloggerFeed(name, feedUrl, defaultFeed);
 		if (bloggerFeed.getId() != null) {
 			modelAndView.addObject("bloggerFeedConfirmation", true);
 		}
@@ -40,7 +40,7 @@ public class BloggerFeedController {
 	}
 	
 	@RequestMapping(value=CONTROLLER_MAPPING + "/delete/{key}", method=RequestMethod.POST)
-	public ModelAndView deleteTopNavigation(@PathVariable ("key") Long key) {
+	public ModelAndView deleteBloggerFeed(@PathVariable ("key") Long key) {
 		ModelAndView modelAndView = new ModelAndView(CONFIRMATION_VIEW);
 		
 		modelAndView.addObject("bloggerFeedConfirmation", bloggerFeedService.deleteBloggerFeed(key));

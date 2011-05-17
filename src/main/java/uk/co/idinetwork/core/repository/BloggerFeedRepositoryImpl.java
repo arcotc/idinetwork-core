@@ -16,10 +16,11 @@ public class BloggerFeedRepositoryImpl implements BloggerFeedRepository {
 	}
 
 	@Override
-	public BloggerFeed saveBloggerFeed(String name, String feedUrl) {
+	public BloggerFeed saveBloggerFeed(String name, String feedUrl, Boolean defaultFeed) {
 		BloggerFeed bloggerFeed = new BloggerFeed();
 		bloggerFeed.setName(name);
 		bloggerFeed.setFeedUrl(feedUrl);
+		bloggerFeed.setDefaultFeed(defaultFeed);
 		
 		bloggerFeed.insert();
 		

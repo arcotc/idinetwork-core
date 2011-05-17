@@ -1,6 +1,9 @@
 package uk.co.idinetwork.core.controller;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
+import java.util.TreeMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,6 +31,25 @@ public class StandardController {
 		GoogleService myService = new GoogleService("blogger", "continuing-to-learning");
 		Collection<Article> userBlogs = articleService.loadUserBlogs(myService, tags).values();
 		modelAndView.addObject("articles", userBlogs);
+	}
+	
+	protected void loadArticlesOrderedByDateLatestFirst(ModelAndView modelAndView, String tags) {
+		GoogleService myService = new GoogleService("blogger", "continuing-to-learning");
+		Collection<Article> userBlogs = articleService.loadUserBlogs(myService, tags).values();
+		
+		Map<Long, Collection<Article>> orderedBlogs = new TreeMap<Long, Collection<Article>>();
+		for (Article article : userBlogs) {
+			Long key = article.getDateCreated().getTime() * -1;
+			Collection<Article> list = new ArrayList<Article>();
+			
+			if (orderedBlogs.containsKey(key)) {
+				list = orderedBlogs.get(key);
+			}
+			
+			list.add(article);
+ 		}
+		
+		modelAndView.addObject("articles", orderedBlogs.values());
 	}
 	
 	protected void loadArticle(ModelAndView modelAndView, String articleKey) {
