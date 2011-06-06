@@ -6,6 +6,7 @@
     <jspversion>1.1</jspversion>
     <shortname>idinetwork</shortname>
     <uri>http://idinetwork.co.uk/taglibs/idinetwork</uri>
+    
 	<tag>
 		<name>articlesTag</name>
 		<tagclass>uk.co.idinetwork.core.tags.ArticlesTag</tagclass>
@@ -22,6 +23,26 @@
 		<attribute>
 			<name>maxItems</name>
 			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>contactForm</name>
+		<tagclass>uk.co.idinetwork.core.tags.ContactFormTag</tagclass>
+		<attribute>
+			<name>msg</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>email</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>confirmationUrl</name>
+			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 	</tag>

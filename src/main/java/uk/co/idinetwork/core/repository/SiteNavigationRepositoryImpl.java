@@ -16,7 +16,7 @@ public class SiteNavigationRepositoryImpl implements SiteNavigationRepository {
 	}
 	
 	private List<SiteNavigation> findNavigation(String type) {
-		List<SiteNavigation> siteNavigation = SiteNavigation.all().filter("type", type).fetch();
+		List<SiteNavigation> siteNavigation = SiteNavigation.all().filter("type", type).order("sortOrder").fetch();
 		return siteNavigation;
 	}
 	

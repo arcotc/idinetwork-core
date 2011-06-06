@@ -14,6 +14,7 @@ public class Article extends Model implements Comparable<Article> {
 	private String intro;
 	private String copy;
 	private Date dateCreated;
+	private String tags;
 	
 	public Article(String pageTitle, String title, String intro, String copy) {
 		setKey(pageTitle);
@@ -87,6 +88,14 @@ public class Article extends Model implements Comparable<Article> {
 		return dateCreated;
 	}
 	
+	public void setTags(String tags) {
+		this.tags = tags;
+	}
+
+	public String getTags() {
+		return tags;
+	}
+
 	@Override
 	public String toString() {
 		return "Article {" + id + ", " + title + "}";

@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import uk.co.idinetwork.core.model.Article;
 import uk.co.idinetwork.core.model.BloggerFeed;
 import uk.co.idinetwork.core.model.json.Atom;
+import uk.co.idinetwork.core.model.json.AtomSchemeTerm;
 import uk.co.idinetwork.core.service.BloggerFeedService;
 
 import com.google.gdata.client.GoogleService;
@@ -164,6 +165,19 @@ public class BloggerRepositoryImpl implements BloggerRepository {
 				catch (ParseException parseException) {
 					log.error("Could not parse publication date " + atom.getEntry().getPublished());
 				}
+				
+				String tags = "";
+				boolean first = true;
+				for (AtomSchemeTerm atomSchemeTerm : atom.getEntry().getCategory()) {
+					if (first) {
+						first = false;
+					}
+					else {
+						tags += ",";
+					}
+					tags += atomSchemeTerm.getTerm();
+				}
+				article.setTags(tags);
 			}
 			catch (IOException ioException) {
 				log.error("Error occurred parsing feed URL for articleId " + articleKey + ": " + ioException.getMessage());

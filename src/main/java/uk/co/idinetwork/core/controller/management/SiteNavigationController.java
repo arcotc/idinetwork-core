@@ -40,7 +40,7 @@ public class SiteNavigationController {
 	}
 	
 	@RequestMapping(value=CONTROLLER_MAPPING + "/add/{type}", method=RequestMethod.POST)
-	public ModelAndView addNavigation(HttpServletRequest request, @PathVariable ("type") String type, String title) {
+	public ModelAndView addNavigation(HttpServletRequest request, @PathVariable ("type") String type, String title, Integer sortOrder) {
 		ModelAndView modelAndView = new ModelAndView(CONFIRMATION_VIEW);
 		
 		if (authorisationService.isAuthorised()) {
@@ -48,6 +48,7 @@ public class SiteNavigationController {
 			siteNavigation.setKey(KeyUtil.buildKey(title));
 			siteNavigation.setTitle(title);
 			siteNavigation.setType(type);
+			siteNavigation.setSortOrder(sortOrder);
 			siteNavigationService.saveSiteNavigation(siteNavigation);
 			
 			if (siteNavigation.getId() != null) {

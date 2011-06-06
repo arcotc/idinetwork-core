@@ -1,5 +1,7 @@
 package uk.co.idinetwork.core.model.json;
 
+import java.util.List;
+
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
@@ -11,6 +13,7 @@ public class AtomEntry {
 	private AtomTValue title;
 	private AtomTValue content;
 	private AtomTTermValue term;
+	private List<AtomSchemeTerm> category;
 
 	public String getXmlns() {
 		return xmlns;
@@ -66,6 +69,14 @@ public class AtomEntry {
 
 	public AtomTTermValue getTerm() {
 		return term;
+	}
+
+	public void setCategory(List<AtomSchemeTerm> category) {
+		this.category = category;
+	}
+
+	public List<AtomSchemeTerm> getCategory() {
+		return category;
 	}
 	
 	

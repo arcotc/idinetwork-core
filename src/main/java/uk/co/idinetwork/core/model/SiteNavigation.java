@@ -9,6 +9,7 @@ public class SiteNavigation extends Model {
 	private String key;
 	private String title;
 	private String type;
+	private Integer sortOrder;
 	
 	public Long getId() {
 		return id;
@@ -40,6 +41,14 @@ public class SiteNavigation extends Model {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+	
+	public Integer getSortOrder() {
+		return sortOrder;
+	}
+	
+	public void setSortOrder(Integer sortOrder) {
+		this.sortOrder = sortOrder;
 	}
 
 	public static Query<SiteNavigation> all() {

@@ -68,7 +68,7 @@ public class StandardController {
 		if (page == null) {
 			page = new Page();
 			page.setTitle("Page not found");
-			page.setBody("The requested page could not be found.");
+			page.setBody("<p>The requested page could not be found.</p>");
 		}
 
 		modelAndView.addObject("page", page);

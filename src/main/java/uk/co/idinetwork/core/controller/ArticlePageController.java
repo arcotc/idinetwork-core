@@ -12,7 +12,7 @@ public class ArticlePageController extends StandardController {
 	
 	@RequestMapping(value=CONTROLLER_MAPPING, method=RequestMethod.GET)
 	public ModelAndView firstLevelPage(@PathVariable ("articleKey") String articleKey) {
-		ModelAndView modelAndView = new ModelAndView("firstLevelPage");
+		ModelAndView modelAndView = new ModelAndView("articlePage");
 
 		loadArticle(modelAndView, articleKey);
 		loadNavigation(modelAndView);

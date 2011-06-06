@@ -8,10 +8,13 @@ public class Page extends Model {
 	@Id private Long id;
 	private String key;
 	private String title;
+	private String intro;
 	private String body;
 	private String metaDescription;
 	private String metaKeywords;
 	private String tags;
+	private String linkText;
+	private String templateName;
 
 	public Long getId() {
 		return id;
@@ -67,6 +70,30 @@ public class Page extends Model {
 
 	public String getTags() {
 		return tags;
+	}
+
+	public String getIntro() {
+		return intro;
+	}
+
+	public void setIntro(String intro) {
+		this.intro = intro;
+	}
+
+	public String getLinkText() {
+		return linkText;
+	}
+
+	public void setLinkText(String linkText) {
+		this.linkText = linkText;
+	}
+
+	public String getTemplateName() {
+		return templateName;
+	}
+
+	public void setTemplateName(String templateName) {
+		this.templateName = templateName;
 	}
 
 	public static Query<Page> all() {
