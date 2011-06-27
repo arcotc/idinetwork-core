@@ -36,7 +36,12 @@
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 		<attribute>
-			<name>email</name>
+			<name>fromEmail</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>toEmail</name>
 			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>

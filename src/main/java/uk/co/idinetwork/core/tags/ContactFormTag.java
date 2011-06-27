@@ -4,12 +4,16 @@ import java.io.IOException;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
+import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.TagSupport;
+
+import org.apache.commons.lang.StringUtils;
 
 @SuppressWarnings("serial")
 public class ContactFormTag extends TagSupport {
 	private String msg;
-	private String email;
+	private String fromEmail;
+	private String toEmail;
 	private String confirmationUrl;
 	
 	public ContactFormTag() {
@@ -22,33 +26,38 @@ public class ContactFormTag extends TagSupport {
 		JspWriter out = pageContext.getOut();
 		
 		try {
-			out.println("<span class=\"contactForm.message\">" + msg + "</span>");
+			out.println("<span class=\"contactForm-message\">" + msg + "<br/><br/></span>");
+			String errorMsg = getAttribute(pageContext, "errorMsg");
+			if (!StringUtils.isBlank(errorMsg)) {
+				out.println("<span style=\"color: red\">" + errorMsg + "<br/><br/></span>");
+			}
 			out.println("<form action=\"/site/contact/submit\" method=\"post\">");
 			out.println("   <input type=\"hidden\" name=\"confirmationUrl\" value=\"" + confirmationUrl + "\">");
-			out.println("   <input type=\"hidden\" name=\"email\" value=\"" + email + "\">");
+			out.println("   <input type=\"hidden\" name=\"fromEmail\" value=\"" + fromEmail + "\">");
+			out.println("   <input type=\"hidden\" name=\"toEmail\" value=\"" + toEmail + "\">");
 			out.println("   <table width=\"100%\">");
 			out.println("       <tr>");
 			out.println("           <td valign=\"top\" id=\"contactForm\">");
-			out.println("	            Name:");
+			out.println("	            Name: (required)");
 			out.println("           </td>");
 			out.println("           <td valign=\"top\" id=\"contactForm\">");
-			out.println("	            <input type=\"text\" name=\"name\">");
-			out.println("           </td>");
-			out.println("       </tr>");
-			out.println("       <tr>");
-			out.println("           <td valign=\"top\" id=\"contactForm\">");
-			out.println("	            Email Address:");
-			out.println("           </td>");
-			out.println("           <td valign=\"top\" id=\"contactForm\">");
-			out.println("	            <input type=\"text\" name=\"emailAddress\">");
+			out.println("	            <input type=\"text\" name=\"name\" value=\"" + getAttribute(pageContext, "name") + "\">");
 			out.println("           </td>");
 			out.println("       </tr>");
 			out.println("       <tr>");
 			out.println("           <td valign=\"top\" id=\"contactForm\">");
-			out.println("	            Message:");
+			out.println("	            Email Address: (required)");
 			out.println("           </td>");
 			out.println("           <td valign=\"top\" id=\"contactForm\">");
-			out.println("	            <textarea id=\"contactForm\" name=\"userMsg\" cols=\"50\" rows=\"8\"></textarea><br/>");
+			out.println("	            <input type=\"text\" name=\"usersEmail\" value=\"" + getAttribute(pageContext, "usersEmail") + "\">");
+			out.println("           </td>");
+			out.println("       </tr>");
+			out.println("       <tr>");
+			out.println("           <td valign=\"top\" id=\"contactForm\">");
+			out.println("	            Message: (required)");
+			out.println("           </td>");
+			out.println("           <td valign=\"top\" id=\"contactForm\">");
+			out.println("	            <textarea id=\"contactForm\" name=\"userMsg\" cols=\"50\" rows=\"8\">" + getAttribute(pageContext, "userMsg") + "</textarea><br/>");
 			out.println("           </td>");
 			out.println("       </tr>");
 			out.println("       <tr>");
@@ -74,12 +83,20 @@ public class ContactFormTag extends TagSupport {
 		this.msg = msg;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getFromEmail() {
+		return fromEmail;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setFromEmail(String fromEmail) {
+		this.fromEmail = fromEmail;
+	}
+
+	public String getToEmail() {
+		return toEmail;
+	}
+
+	public void setToEmail(String toEmail) {
+		this.toEmail = toEmail;
 	}
 
 	public String getConfirmationUrl() {
@@ -88,5 +105,15 @@ public class ContactFormTag extends TagSupport {
 
 	public void setConfirmationUrl(String confirmationUrl) {
 		this.confirmationUrl = confirmationUrl;
+	}
+	
+	private String getAttribute(PageContext pageContext, String attributeName) {
+		Object o = pageContext.getRequest().getAttribute(attributeName);
+		if ((o != null) && (o instanceof String)) {
+			return (String) o;
+		}
+		else {
+			return "";
+		}
 	}
 }

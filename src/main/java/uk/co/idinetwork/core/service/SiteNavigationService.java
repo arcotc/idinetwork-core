@@ -9,4 +9,5 @@ public interface SiteNavigationService {
 	public List<SiteNavigation> findSideNavigation();
 	public SiteNavigation saveSiteNavigation(SiteNavigation siteNavigation);
 	public Boolean deleteSiteNavigation(String type, Long id);
+	public List<SiteNavigation> findAllNavigation();
 }

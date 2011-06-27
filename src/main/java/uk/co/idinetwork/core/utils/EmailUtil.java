@@ -2,6 +2,8 @@ package uk.co.idinetwork.core.utils;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -17,7 +19,7 @@ import org.apache.commons.logging.LogFactory;
 public class EmailUtil {
 	private static final Log log = LogFactory.getLog(EmailUtil.class);
 	
-	public static boolean send(String toEmail, String niceName, String subject, String body) {
+	public static boolean send(String fromEmail, String toEmail, String niceName, String subject, String body) {
 		boolean result = false;
 		
 		log.debug("Submitting contact form");
@@ -28,8 +30,12 @@ public class EmailUtil {
 	    try {
 	    	log.debug("Preparing message");
 	    	Message msg = new MimeMessage(session);
-            msg.setFrom(new InternetAddress("arcotc@googlemail.com", "Your IDINetwork Website"));
-            msg.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail, niceName));
+	    	log.info(String.format("Adding FROM email address: %s", fromEmail.split(";")[0]));
+            msg.setFrom(new InternetAddress(fromEmail.split(";")[0], "Your IDINetwork Website"));
+            for (String a : toEmail.split(";")) {
+            	log.info(String.format("Adding TO recipient address: %s", a));
+            	msg.addRecipient(Message.RecipientType.TO, new InternetAddress(a, niceName));
+            }
             msg.setSubject(subject);
             msg.setText(body);
 
@@ -49,5 +55,15 @@ public class EmailUtil {
         }
 	    
 	    return result;
+	}
+	
+	public static boolean isValidEmailAddress(String emailAddress){
+		String  expression="^[\\w\\-]([\\.\\w])+[\\w]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+
+		CharSequence inputStr = emailAddress;
+		Pattern pattern = Pattern.compile(expression,Pattern.CASE_INSENSITIVE);
+		Matcher matcher = pattern.matcher(inputStr);
+		
+		return matcher.matches();
 	}
 }

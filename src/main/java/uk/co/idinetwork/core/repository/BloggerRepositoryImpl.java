@@ -103,6 +103,9 @@ public class BloggerRepositoryImpl implements BloggerRepository {
 			catch (IOException ioException) {
 				log.error("Error occurred parsing feed URL " + bloggerFeed.getFeedUrl() + ": " + ioException.getMessage());
 			}
+			catch (Exception e) {
+				log.error("Error occurred parsing feed URL " + bloggerFeed.getFeedUrl() + ": " + e.getMessage());
+			}
 		}
 		
 		return articles;

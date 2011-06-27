@@ -1,6 +1,7 @@
 package uk.co.idinetwork.core.model;
 
 import siena.Id;
+import siena.Index;
 import siena.Model;
 import siena.Query;
 
@@ -9,7 +10,7 @@ public class SiteNavigation extends Model {
 	private String key;
 	private String title;
 	private String type;
-	private Integer sortOrder;
+	@Index("siteNav_sortOrder_index") private Integer sortOrder;
 	
 	public Long getId() {
 		return id;
