@@ -26,6 +26,7 @@ import uk.co.idinetwork.core.model.BloggerFeed;
 import uk.co.idinetwork.core.model.json.Atom;
 import uk.co.idinetwork.core.model.json.AtomSchemeTerm;
 import uk.co.idinetwork.core.service.BloggerFeedService;
+import uk.co.idinetwork.core.utils.KeyUtil;
 
 import com.google.gdata.client.GoogleService;
 import com.google.gdata.data.Category;
@@ -53,21 +54,40 @@ public class BloggerRepositoryImpl implements BloggerRepository {
 		return cache;
 	}
 	
+	@Override
+	public List<BloggerFeed> loadDefaultBloggerFeeds() {
+		return bloggerFeedService.loadDefaultBloggerFeeds();
+	}
 	
 	@Override
 	public Map<String, Article> loadUserBlogs(GoogleService myService, String tags) {
 		Map<String, Article> articles = new TreeMap<String, Article>();
 		
 		List<BloggerFeed> bloggerFeeds = bloggerFeedService.loadAllBloggerFeeds();
+		log.info("Blog trace: starting");
 		for (BloggerFeed bloggerFeed : bloggerFeeds) {
+			Boolean isDefaultBlog = false;
+			try {
+				if (bloggerFeed.getDefaultFeed()) {
+					isDefaultBlog = true;
+				}
+			}
+			catch (NullPointerException nullPointerException) {
+				log.info("Default Feed setting for blogger feed " + bloggerFeed.getName() + " (" + bloggerFeed.getFeedUrl() + ") is not set");
+			}
 			try {
 				// Request the feed
 				final URL feedUrl = new URL(bloggerFeed.getFeedUrl());
+				log.info("Blog trace: feedUrl=" + feedUrl.toString());
+				
 				Feed resultFeed = myService.getFeed(feedUrl, Feed.class);
+				log.info("Blog trace: resultFeed == null is " + (resultFeed == null));
 		
 				// Print the results
+				log.info("Blog trace: resultFeed.getEntries().size() = " + resultFeed.getEntries().size());
 				for (int i = 0; i < resultFeed.getEntries().size(); i++) {
 					Entry entry = resultFeed.getEntries().get(i);
+					log.info("Blog trace: entry(" + i + ") == null is " + (entry == null));
 					
 					boolean processThisRecord = false;
 					if (StringUtils.isBlank(tags)) {
@@ -75,17 +95,28 @@ public class BloggerRepositoryImpl implements BloggerRepository {
 					}
 					else {
 						for (String tag : tags.split(",")) {
+							log.info("Blog trace: tag == " + tag);
 							for (Category category : entry.getCategories()) {
-								if (StringUtils.contains(category.getTerm().toLowerCase(),tag.toLowerCase())) {
-									processThisRecord = true;
+								log.info("Blog trace: category.getTerm() == null is " + (category.getTerm() == null));
+								log.info("Blog trace: bloggerFeed.getDefaultFeed() == null is " + (isDefaultBlog == null));
+								String categoryTerm = category.getTerm().toLowerCase();
+								if (!isDefaultBlog && categoryTerm.equalsIgnoreCase("mysiteonly")) {
+									processThisRecord = false;
 									break;
+								}
+								else {
+									if (StringUtils.contains(categoryTerm,tag.toLowerCase())) {
+										processThisRecord = true;
+									}
 								}
 							}
 						}
 					}
 					
 					if (processThisRecord) {
-						Article article = new Article(entry.getTitle().getPlainText(), entry.getTitle().getPlainText(), entry.getTextContent().getContent().getPlainText().substring(0, 50) + "...", entry.getTextContent().getContent().getPlainText());
+						log.info("Blog trace: processThisRecord");
+						int x = entry.getTextContent().getContent().getPlainText().length() > 50 ? 50 : entry.getTextContent().getContent().getPlainText().length(); 
+						Article article = new Article(entry.getTitle().getPlainText(), entry.getTitle().getPlainText(), entry.getTextContent().getContent().getPlainText().substring(0, x) + "...", entry.getTextContent().getContent().getPlainText());
 						
 						// TODO: Replace with RegEx
 						String id = entry.getId();
@@ -93,20 +124,23 @@ public class BloggerRepositoryImpl implements BloggerRepository {
 						article.setId(id.substring(id.indexOf("blog-") + 5, id.indexOf(".post")));
 						article.setPostId(id.substring(id.indexOf("post-") + 5));
 						article.setDateCreated(new Date(entry.getPublished().getValue()));
-						articles.put(article.getKey(), article);
+						article.setSourceFeed(bloggerFeed);
+
+						articles.put(KeyUtil.buildKey(article.getKey()), article);
 					}
 				}
 			}
 			catch (ServiceException serviceException) {
-				log.error("Error occurred parsing feed URL " + bloggerFeed.getFeedUrl() + ": " + serviceException.getMessage());
+				log.error("ServiceException Error occurred parsing feed URL " + bloggerFeed.getFeedUrl() + ": " + serviceException.getMessage(), serviceException);
 			}
 			catch (IOException ioException) {
-				log.error("Error occurred parsing feed URL " + bloggerFeed.getFeedUrl() + ": " + ioException.getMessage());
+				log.error("IOException Error occurred parsing feed URL " + bloggerFeed.getFeedUrl() + ": " + ioException.getMessage(), ioException);
 			}
 			catch (Exception e) {
-				log.error("Error occurred parsing feed URL " + bloggerFeed.getFeedUrl() + ": " + e.getMessage());
+				log.error("Exception Error occurred parsing feed URL " + bloggerFeed.getFeedUrl() + ": " + e.getMessage(), e);
 			}
 		}
+		log.info("Blog trace: Finishing");
 		
 		return articles;
 	}
@@ -183,7 +217,7 @@ public class BloggerRepositoryImpl implements BloggerRepository {
 				article.setTags(tags);
 			}
 			catch (IOException ioException) {
-				log.error("Error occurred parsing feed URL for articleId " + articleKey + ": " + ioException.getMessage());
+				log.error("IOException Error occurred parsing feed URL for articleId " + articleKey + ": " + ioException.getMessage(), ioException);
 			}
 		}
 		
@@ -191,6 +225,7 @@ public class BloggerRepositoryImpl implements BloggerRepository {
 	}
 	
 	private Boolean isCacheExpired() {
+		cache = null;
 		return ((cache == null) || (cache.size() == 0) || (new Date().after(cachedExpireDate)));
 	}
 

@@ -1,5 +1,7 @@
 package uk.co.idinetwork.core.model;
 
+import java.util.List;
+
 import siena.Id;
 import siena.Model;
 import siena.Query;
@@ -15,6 +17,8 @@ public class Page extends Model {
 	private String tags;
 	private String linkText;
 	private String templateName;
+	private List<Page> linkTextAsPages;
+	private String includePath;
 
 	public Long getId() {
 		return id;
@@ -83,7 +87,7 @@ public class Page extends Model {
 	public String getLinkText() {
 		return linkText;
 	}
-
+	
 	public void setLinkText(String linkText) {
 		this.linkText = linkText;
 	}
@@ -94,6 +98,22 @@ public class Page extends Model {
 
 	public void setTemplateName(String templateName) {
 		this.templateName = templateName;
+	}
+	
+	public List<Page> getLinkTextAsPages() {
+		return linkTextAsPages;
+	}
+	
+	public void setLinkTextAsPages(List<Page> linkTextAsPages) {
+		this.linkTextAsPages = linkTextAsPages;
+	}
+
+	public void setIncludePath(String includePath) {
+		this.includePath = includePath;
+	}
+
+	public String getIncludePath() {
+		return includePath;
 	}
 
 	public static Query<Page> all() {

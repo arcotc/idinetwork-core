@@ -44,7 +44,7 @@ public class InitialiseController {
 			siteNavigationService.saveSiteNavigation(siteNavigation);
 		}
 
-		pageService.savePage("Welcome", "home", "home", "", "<p>Welcome to your new IDINetwork web site.</p>", "", "", "", "");
+		pageService.savePage("Welcome", "home", "home", "", "<p>Welcome to your new IDINetwork web site.</p>", "", "", "", "", "");
 		
 		modelAndView.addObject("initialiseConfirmation", true);
 		

@@ -40,13 +40,13 @@ public class PageController {
 	}
 	
 	@RequestMapping(value=CONTROLLER_MAPPING + "/add", method=RequestMethod.POST)
-	public ModelAndView addPage(HttpServletRequest request, String title, String linkTitle, String linkText, String intro, String body, String metaDescription, String metaKeywords, String tags, String templateName) {
+	public ModelAndView addPage(HttpServletRequest request, String title, String linkTitle, String linkText, String intro, String body, String metaDescription, String metaKeywords, String tags, String templateName, String includePath) {
 		ModelAndView modelAndView = null;
 		
 		if (authorisationService.isAuthorised()) {
 			modelAndView = new ModelAndView(CONFIRMATION_VIEW);
 			
-			Page page = pageService.savePage(title, linkTitle, linkText, intro, body, metaDescription, metaKeywords, tags, templateName);
+			Page page = pageService.savePage(title, linkTitle, linkText, intro, body, metaDescription, metaKeywords, tags, templateName, includePath);
 			if (page.getId() != null) {
 				modelAndView.addObject("pageConfirmation", true);
 			}
@@ -94,11 +94,11 @@ public class PageController {
 	}
 	
 	@RequestMapping(value=CONTROLLER_MAPPING + "/edit", method=RequestMethod.POST)
-	public ModelAndView editPageSave(HttpServletRequest request, Long id, String title, String linkTitle, String linkText, String intro, String body, String metaDescription, String metaKeywords, String tags, String templateName) {
+	public ModelAndView editPageSave(HttpServletRequest request, Long id, String title, String linkTitle, String linkText, String intro, String body, String metaDescription, String metaKeywords, String tags, String templateName, String includePath) {
 		ModelAndView modelAndView = null;
 		
 		if (authorisationService.isAuthorised()) {
-			Page page = pageService.updatePage(id, title, linkTitle, linkText, intro, body, metaDescription, metaKeywords, tags, templateName);
+			Page page = pageService.updatePage(id, title, linkTitle, linkText, intro, body, metaDescription, metaKeywords, tags, templateName,includePath);
 			if (page != null) {
 				modelAndView = new ModelAndView(CONFIRMATION_VIEW);
 				modelAndView.addObject("pageConfirmation", true);

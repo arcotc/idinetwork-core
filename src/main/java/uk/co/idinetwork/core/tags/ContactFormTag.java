@@ -7,6 +7,9 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.TagSupport;
 
+import net.tanesha.recaptcha.ReCaptcha;
+import net.tanesha.recaptcha.ReCaptchaFactory;
+
 import org.apache.commons.lang.StringUtils;
 
 @SuppressWarnings("serial")
@@ -38,7 +41,7 @@ public class ContactFormTag extends TagSupport {
 			out.println("   <table width=\"100%\">");
 			out.println("       <tr>");
 			out.println("           <td valign=\"top\" id=\"contactForm\">");
-			out.println("	            Name: (required)");
+			out.println("	            Name: *");
 			out.println("           </td>");
 			out.println("           <td valign=\"top\" id=\"contactForm\">");
 			out.println("	            <input type=\"text\" name=\"name\" value=\"" + getAttribute(pageContext, "name") + "\">");
@@ -46,7 +49,7 @@ public class ContactFormTag extends TagSupport {
 			out.println("       </tr>");
 			out.println("       <tr>");
 			out.println("           <td valign=\"top\" id=\"contactForm\">");
-			out.println("	            Email Address: (required)");
+			out.println("	            Email Address: *");
 			out.println("           </td>");
 			out.println("           <td valign=\"top\" id=\"contactForm\">");
 			out.println("	            <input type=\"text\" name=\"usersEmail\" value=\"" + getAttribute(pageContext, "usersEmail") + "\">");
@@ -54,15 +57,30 @@ public class ContactFormTag extends TagSupport {
 			out.println("       </tr>");
 			out.println("       <tr>");
 			out.println("           <td valign=\"top\" id=\"contactForm\">");
-			out.println("	            Message: (required)");
+			out.println("	            Message: *");
 			out.println("           </td>");
 			out.println("           <td valign=\"top\" id=\"contactForm\">");
 			out.println("	            <textarea id=\"contactForm\" name=\"userMsg\" cols=\"50\" rows=\"8\">" + getAttribute(pageContext, "userMsg") + "</textarea><br/>");
 			out.println("           </td>");
 			out.println("       </tr>");
 			out.println("       <tr>");
+			out.println("           <td valign=\"top\" id=\"contactForm\" colspan=\"99\">");
+
+	        ReCaptcha c = ReCaptchaFactory.newReCaptcha("6Lco2cUSAAAAACOgUdeoBlUd_IVYLm31LmTf0Eyd", "6Lco2cUSAAAAAO3-55M3iPPOfr3FIe_4n5XYsFBW", false);
+	        out.print(c.createRecaptchaHtml(null, null));
+			
+			out.println("				<div id=\"dynamic_recaptcha_1\">");
+			out.println("           </td>");
+			out.println("       </tr>");
+			
+			out.println("       <tr>");
 			out.println("           <td colspan=\"99\" id=\"contactForm\">");
 			out.println("	            <input type=\"submit\" value=\"Send\" id=\"contactForm\">");
+			out.println("           </td>");
+			out.println("       </tr>");
+			out.println("       <tr>");
+			out.println("           <td colspan=\"99\" id=\"contactForm\">");
+			out.println("	            * = Required");
 			out.println("           </td>");
 			out.println("       </tr>");
 			out.println("   </table>");

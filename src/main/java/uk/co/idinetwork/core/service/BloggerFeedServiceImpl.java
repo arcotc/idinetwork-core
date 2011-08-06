@@ -29,4 +29,9 @@ public class BloggerFeedServiceImpl implements BloggerFeedService {
 	public boolean deleteBloggerFeed(Long id) {
 		return bloggerFeedRepository.deleteBloggerFeed(id);
 	}
+	
+	@Override
+	public List<BloggerFeed> loadDefaultBloggerFeeds() {
+		return bloggerFeedRepository.loadDefaultBloggerFeeds();
+	}
 }

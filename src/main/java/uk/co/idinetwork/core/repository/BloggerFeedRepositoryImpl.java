@@ -16,6 +16,11 @@ public class BloggerFeedRepositoryImpl implements BloggerFeedRepository {
 	}
 
 	@Override
+	public List<BloggerFeed> loadDefaultBloggerFeeds() {
+		return BloggerFeed.all().filter("defaultFeed", true).fetch();
+	}
+
+	@Override
 	public BloggerFeed saveBloggerFeed(String name, String feedUrl, Boolean defaultFeed) {
 		BloggerFeed bloggerFeed = new BloggerFeed();
 		bloggerFeed.setName(name);

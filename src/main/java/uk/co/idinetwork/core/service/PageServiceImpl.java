@@ -21,8 +21,8 @@ public class PageServiceImpl implements PageService {
 	}
 
 	@Override
-	public Page savePage(String title, String linkTitle, String linkText, String intro, String body, String metaDescription, String metaKeywords, String tags, String templateName) {
-		return pageRepository.savePage(title, linkTitle, linkText, intro, body, metaDescription, metaKeywords, tags, templateName);
+	public Page savePage(String title, String linkTitle, String linkText, String intro, String body, String metaDescription, String metaKeywords, String tags, String templateName, String includePath) {
+		return pageRepository.savePage(title, linkTitle, linkText, intro, body, metaDescription, metaKeywords, tags, templateName, includePath);
 	}
 
 	@Override
@@ -36,7 +36,7 @@ public class PageServiceImpl implements PageService {
 	}
 
 	@Override
-	public Page updatePage(Long id, String title, String linkTitle, String linkText, String intro, String body, String metaDescription, String metaKeywords, String tags, String templateName) {
-		return pageRepository.updatePage(id, title, linkTitle, linkText, intro, body, metaDescription, metaKeywords, tags, templateName);
+	public Page updatePage(Long id, String title, String linkTitle, String linkText, String intro, String body, String metaDescription, String metaKeywords, String tags, String templateName, String includePath) {
+		return pageRepository.updatePage(id, title, linkTitle, linkText, intro, body, metaDescription, metaKeywords, tags, templateName, includePath);
 	}
 }

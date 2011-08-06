@@ -5,7 +5,7 @@
 
 	<groupId>uk.co.idinetwork</groupId>
 	<artifactId>core</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>0.0.6-SNAPSHOT</version>
 	<name>Independent Driving Instructors Network - Core</name>
 	<packaging>jar</packaging>
 
@@ -20,7 +20,7 @@
 		<jettyVersion>7.2.0.v20101020</jettyVersion>
 
 		<!--gae.home>/home/mhunter/appengine-java-sdk-1.4.0/</gae.home -->
-		<gae.home>d:/java/appengine-java-sdk-1.4.2/</gae.home>
+		<gae.home>d:/java/appengine-java-sdk-1.5.1/</gae.home>
 	</properties>
 
 	<pluginRepositories>
@@ -32,6 +32,12 @@
 	</pluginRepositories>
 
 	<dependencies>
+		<dependency>
+            <groupId>net.tanesha.recaptcha</groupId>
+            <artifactId>recaptcha</artifactId>
+            <version>0.0.7</version>
+        </dependency>
+
 		<dependency>
 			<groupId>javax.transaction</groupId>
 			<artifactId>jta</artifactId>
@@ -166,7 +172,7 @@
 		<dependency>
 			<groupId>com.google.appengine</groupId>
 			<artifactId>appengine-api-1.0-sdk</artifactId>
-			<version>1.4.2</version>
+			<version>1.5.1</version>
 		</dependency>
 		<dependency>
 			<groupId>google</groupId>
@@ -232,6 +238,13 @@
        		<artifactId>activation</artifactId>
         	<version>1.1</version>
 		</dependency>
+
+		<dependency>
+		    <groupId>com.googlecode.janrain4j</groupId>
+		    <artifactId>janrain4j</artifactId>
+		    <version>1.1.0</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

@@ -9,3 +9,5 @@ mvn install:install-file -DgroupId=google -DartifactId=gdata-blogger -Dversion=2
 mvn install:install-file -DgroupId=google -DartifactId=gdata-core -Dversion=1.0 -Dpackaging=jar -Dfile=/media/DATA/projects/idinetwork/idisample/target/idisample-0.0.1-SNAPSHOT/WEB-INF/lib/gdata-core-1.0.jar
 
 mvn install:install-file -DgroupId=google -DartifactId=collect -Dversion=1.0 -Dpackaging=jar -Dfile=/media/DATA/projects/idinetwork/idisample/target/idisample-0.0.1-SNAPSHOT/WEB-INF/lib/collect-1.0.jar
+
+mvn install:install-file -DgroupId=net.tanesha.recaptcha -DartifactId=recaptcha -Dversion=0.0.7 -Dpackaging=jar -Dfile=mvn_dependencies/recaptcha4j-0.0.7.jar

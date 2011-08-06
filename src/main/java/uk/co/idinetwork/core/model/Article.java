@@ -15,6 +15,7 @@ public class Article extends Model implements Comparable<Article> {
 	private String copy;
 	private Date dateCreated;
 	private String tags;
+	private BloggerFeed sourceFeed;
 	
 	public Article(String pageTitle, String title, String intro, String copy) {
 		setKey(pageTitle);
@@ -94,6 +95,14 @@ public class Article extends Model implements Comparable<Article> {
 
 	public String getTags() {
 		return tags;
+	}
+	
+	public void setSourceFeed(BloggerFeed bloggerFeed) {
+		this.sourceFeed = bloggerFeed;
+	}
+	
+	public BloggerFeed getSourceFeed() {
+		return sourceFeed;
 	}
 
 	@Override

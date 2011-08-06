@@ -1,4 +1,10 @@
 .classpath
+
 .settings
+
 target
+
 .project
+core.iml
+core.ipr
+core.iws

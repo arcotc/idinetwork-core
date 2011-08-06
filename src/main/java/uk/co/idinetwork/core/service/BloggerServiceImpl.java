@@ -1,11 +1,13 @@
 package uk.co.idinetwork.core.service;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import uk.co.idinetwork.core.model.Article;
+import uk.co.idinetwork.core.model.BloggerFeed;
 import uk.co.idinetwork.core.repository.BloggerRepository;
 
 import com.google.gdata.client.GoogleService;
@@ -41,5 +43,10 @@ public class BloggerServiceImpl implements BloggerService {
 	@Override
 	public void flushCache() {
 		bloggerRepository.flushCache();
+	}
+	
+	@Override
+	public List<BloggerFeed> loadDefaultBloggerFeeds() {
+		return bloggerRepository.loadDefaultBloggerFeeds();
 	}
 }

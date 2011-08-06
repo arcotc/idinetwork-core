@@ -34,7 +34,7 @@ public class EmailUtil {
             msg.setFrom(new InternetAddress(fromEmail.split(";")[0], "Your IDINetwork Website"));
             for (String a : toEmail.split(";")) {
             	log.info(String.format("Adding TO recipient address: %s", a));
-            	msg.addRecipient(Message.RecipientType.TO, new InternetAddress(a, niceName));
+            	msg.addRecipient(Message.RecipientType.TO, new InternetAddress(a));
             }
             msg.setSubject(subject);
             msg.setText(body);

@@ -9,4 +9,5 @@ public interface BloggerFeedService {
 	List<BloggerFeed> loadAllBloggerFeeds();
 	BloggerFeed saveBloggerFeed(String name, String feedUrl, Boolean defaultFeed);
 	boolean deleteBloggerFeed(Long id);
+	public List<BloggerFeed> loadDefaultBloggerFeeds();
 }

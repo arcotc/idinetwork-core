@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import uk.co.idinetwork.core.model.Article;
 import uk.co.idinetwork.core.model.Page;
 import uk.co.idinetwork.core.service.BloggerService;
+import uk.co.idinetwork.core.service.GeneralService;
 import uk.co.idinetwork.core.service.PageService;
 import uk.co.idinetwork.core.service.SiteNavigationService;
 
@@ -20,6 +21,7 @@ public class StandardController {
 	@Autowired private BloggerService articleService;
 	@Autowired private SiteNavigationService siteNavigationService;
 	@Autowired private PageService pageService;
+	@Autowired private GeneralService generalService;
 	
 	protected void loadArticles(ModelAndView modelAndView) {
 		GoogleService myService = new GoogleService("blogger", "continuing-to-learning");
@@ -62,7 +64,7 @@ public class StandardController {
 		modelAndView.addObject("topNavigation", siteNavigationService.findTopNavigation());
 	}
 	
-	protected void loadPage(ModelAndView modelAndView, String key) {
+	protected Page loadPage(ModelAndView modelAndView, String mavName, String key) {
 		Page page = pageService.loadPage(key);
 		
 		if (page == null) {
@@ -71,6 +73,12 @@ public class StandardController {
 			page.setBody("<p>The requested page could not be found.</p>");
 		}
 
-		modelAndView.addObject("page", page);
+		modelAndView.addObject(mavName, page);
+		
+		return page;
+	}
+	
+	protected void loadConfig(ModelAndView modelAndView) {
+		modelAndView.addObject("configs",generalService.findConfig());
 	}
 }
